@@ -51,8 +51,7 @@
            
             float IsPtInsideFunc(float2 funcpt, float2 pt, float transitionHalfWidth)
             {
-                return smoothstep(-funcpt.y - transitionHalfWidth, -funcpt.y + transitionHalfWidth, pt.y)
-                * (1. - smoothstep(funcpt.y - transitionHalfWidth, funcpt.y + transitionHalfWidth, pt.y));
+                return  (1. - smoothstep(funcpt.y - transitionHalfWidth, funcpt.y + transitionHalfWidth, pt.y));
             }
             float2 GlobalToLocalPos(float2 origin, float angle, float2 globalPos)
             {
@@ -75,7 +74,7 @@
                 
                 int index = (pointsNum-1) * i.uv[0];
                 int index2 = index+1;
-                if(index2 == pointsNum)
+                if(index2 >= pointsNum)
                     index2--;
                 int2 id = int2(index, 0);
                 int2 id2 = int2(index2, 0);
@@ -83,13 +82,13 @@
                 float4 funcpt2 = pointsT[id2];
                 float currUV = ((float)index) / ((float)(pointsNum-1));
                 float nextUV =  ((float)index2) / ((float)(pointsNum-1));
-                float lerpFac = (i.uv[0]-currUV)/nextUV;
+                float lerpFac = (i.uv[0]-currUV)/(nextUV-currUV);
                 //float4 c = pointsT[int2(pointsNum-1,0)];
-                float2 pt = lerp(funcpt,funcpt2,1-lerpFac);//GlobalToLocalPos(funcpt,0,uv);
+                float2 pt = lerp(float2(funcpt.xy),float2(funcpt2.xy),lerpFac);//GlobalToLocalPos(funcpt,0,uv);
                 
                 fixed4 col = lerp(overCol, underCol, IsPtInsideFunc(pt,GlobalToLocalPos(pt,0,i.uv),0));
                 //fixed4 col = c;
-                    
+               
                 float2 rect = float2(.2,.1);
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
