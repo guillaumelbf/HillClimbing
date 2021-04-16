@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 public class FuncBox : MonoScript
 {
@@ -14,7 +15,15 @@ public class FuncBox : MonoScript
     private Functions func;
 
     private bool isInit = false;
-    private List<Vector2> points = new List<Vector2>();
+    public List<Vector2> points = new List<Vector2>();
+    public List<Vector4> localpoints = new List<Vector4>();
+    [SerializeField] 
+    public GameObject quad;
+
+    public Material overMat;
+    public Material underMat;
+    private GameObject overquad;
+    private GameObject underquad;
     
     // Start is called before the first frame update
     void Start()
@@ -72,6 +81,25 @@ public class FuncBox : MonoScript
             endPoint = BeginPoint +new Vector2(x,y);
         }
 
+        quad.transform.position = (beginPoint + endPoint) * 0.5f;
+        float r = Random.Range(0.0f, 1.0f);
+        float g = Random.Range(0.0f, 1.0f);
+        float b = Random.Range(0.0f, 1.0f);
+        quad.GetComponent<MeshRenderer>().material.color = new Color(r,g,b,1);
+        quad.GetComponent<DebugBox>().BeginPoint = beginPoint;
+        quad.GetComponent<DebugBox>().EndPoint = endPoint;
+        
+        quad.transform.localScale = new Vector3(endPoint.x-beginPoint.x,Mathf.Abs(endPoint.y-beginPoint.y),1);
+        overquad = GameObject.Instantiate(quad, quad.transform.position, Quaternion.identity);
+        overquad.transform.localScale = new Vector3(quad.transform.localScale.x, 20,1);
+        overquad.transform.position += new Vector3(0,quad.transform.localScale.y /2 + overquad.transform.localScale.y/2,0);
+        overquad.GetComponent<MeshRenderer>().material = overMat;
+        underquad = GameObject.Instantiate(quad, quad.transform.position, Quaternion.identity);
+        underquad.transform.localScale = new Vector3(quad.transform.localScale.x, 20,1);
+
+        underquad.transform.position -= new Vector3(0,quad.transform.localScale.y /2 + underquad.transform.localScale.y/2,0);
+
+        underquad.GetComponent<MeshRenderer>().material = underMat;
         isInit = true;
     }
     public List<Vector2> Compute(float pas)
@@ -80,15 +108,33 @@ public class FuncBox : MonoScript
             return null;
         points.Clear();
         float max = endPoint.x - beginPoint.x;
+        float fmax = endPoint.y - beginPoint.y;
         for (float i = 0; i < max; i+=pas)
         {
             float x = beginPoint.x + i;
             float y = beginPoint.y + func.useFunc(i);
+            if(fmax >= 0)
+                localpoints.Add(new Vector2(i/max, func.useFunc(i)/fmax));
+            else
+            {
+                localpoints.Add(new Vector2(i/max, 1.0f- func.useFunc(i)/fmax));
+            }
             points.Add(new Vector2(x,y));
         }
+        quad.GetComponent<MeshRenderer>().material.SetInt("pointsNum", localpoints.Count);
+        Texture2D t = new Texture2D(localpoints.Count, 1);
+        for (int i = 0; i < localpoints.Count; i++)
+        {
+            t.SetPixel(i,0, localpoints[i]);
+        }
+       //t.SetPixel(localpoints.Count-1,0, Color.yellow);
+       t.Apply();
+       quad.GetComponent<MeshRenderer>().material.SetTexture("pointsT",t);
+       quad.GetComponent<MeshRenderer>().material.SetColor("underCol",underMat.color);
+       quad.GetComponent<MeshRenderer>().material.SetColor("overCol",overMat.color);
 
-
-
+        quad.GetComponent<DebugBox>().localpoints = localpoints;
+        
         return points;
     }
 
@@ -96,9 +142,21 @@ public class FuncBox : MonoScript
 
     public Vector2 EndPoint => endPoint;
 
+    public bool IsInBox(Vector2 v)
+    {
+        return (v.x >= BeginPoint.x && v.x <= endPoint.x);
+
+    }
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void OnDestroy()
+    {
+        Destroy(quad);
+        Destroy(overquad);
+        Destroy(underquad);
     }
 }
