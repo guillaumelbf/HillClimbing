@@ -86,7 +86,7 @@
                 //float4 c = pointsT[int2(pointsNum-1,0)];
                 float2 pt = lerp(float2(funcpt.xy),float2(funcpt2.xy),lerpFac);//GlobalToLocalPos(funcpt,0,uv);
                 
-                fixed4 col = lerp(overCol, underCol, IsPtInsideFunc(pt,GlobalToLocalPos(pt,0,i.uv),0));
+                fixed4 col = lerp(overCol, underCol, IsPtInsideFunc(pt,GlobalToLocalPos(pt,0,i.uv),0.01));
                 //fixed4 col = c;
                
                 float2 rect = float2(.2,.1);

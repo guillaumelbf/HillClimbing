@@ -6,7 +6,9 @@ using UnityEngine;
 
 public enum FunctionsType
 {
-    SINUS
+    SINUS,
+    ELLIPTIC,
+    HYPERBOLIC
 }
 
 public class Functions : MonoScript

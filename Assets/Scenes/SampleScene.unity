@@ -158,12 +158,13 @@ MonoBehaviour:
   NumOfChuncks: 20
   min: 10
   max: 30
-  pas: 0.39
+  pas: 0.01
   BeginGen: {x: -9, y: 1}
   Speed: 0.035
   view: 15
   overMat: {fileID: 2100000, guid: 81186725d64fc0845ab6d97d8a1d089b, type: 2}
   underMat: {fileID: 2100000, guid: f5941c1fa95962848912d723288d1942, type: 2}
+  funcType: 0
 --- !u!4 &376819919
 Transform:
   m_ObjectHideFlags: 0
@@ -231,7 +232,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10.41
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -255,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: -10}
+  m_LocalPosition: {x: 17.97, y: -4.66, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 599496598}
@@ -370,7 +371,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd419d67a9529fe4da4b7b61f218630e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grav: 0
+  Grav: 9.8
+  Thrust: 30
+  Frottement: 0.5
+  Mass: 1
 --- !u!1 &1714260337
 GameObject:
   m_ObjectHideFlags: 0
