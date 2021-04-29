@@ -44,8 +44,7 @@ public class PolynomialFunc : Functions
     }
     public override float useFunc(float x)
     {
-        return a *(x*x*x) + b * (x*x) + c *(x) +d ;
-       //return Horner(x,  new []{a, b, c, d});
+        return Horner(x,  new []{d, c, b, a});
     }
 
     public override float useFirstDerivativeFunc(float x)
