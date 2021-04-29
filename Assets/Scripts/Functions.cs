@@ -9,7 +9,8 @@ public enum FunctionsType
     SINUS,
     ELLIPTIC,
     HYPERBOLIC,
-    POLYNOMIAL
+    POLYNOMIAL,
+    RANDOM
 }
 
 public class Functions : MonoScript

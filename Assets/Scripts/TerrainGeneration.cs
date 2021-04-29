@@ -51,6 +51,25 @@ public class TerrainGeneration : MonoBehaviour
                 case FunctionsType.POLYNOMIAL:
                     box.InitFuncPolynomial(oldPos, new Vector2(max,max), new Vector2(min,min));
                     break;
+                case FunctionsType.RANDOM:
+                    int r = Random.Range(1, 5);
+                    switch (r)
+                    {
+                        case 1:
+                            box.InitFuncSine(oldPos, new Vector2(max,max), new Vector2(min,min));
+                            break;
+                        case 2:
+                            box.InitFuncElliptic(oldPos, new Vector2(max,max), new Vector2(min,min));
+                            break;
+                        case 3:
+                            box.InitFuncHyperbolic(oldPos, new Vector2(max,max), new Vector2(min,min));
+                            break;
+                        case 4:
+                            box.InitFuncPolynomial(oldPos, new Vector2(max,max), new Vector2(min,min));
+                            break;
+                    }
+                    break;
+                
             }
             List<Vector2> points = box.Compute(pas);
            // foreach (var vec in points)
@@ -92,6 +111,24 @@ public class TerrainGeneration : MonoBehaviour
                         break;
                     case FunctionsType.POLYNOMIAL:
                         box.InitFuncPolynomial(End, new Vector2(max,max), new Vector2(min,min));
+                        break;
+                    case FunctionsType.RANDOM:
+                        int r = Random.Range(1, 5);
+                        switch (r)
+                        {
+                            case 1:
+                                box.InitFuncSine(End, new Vector2(max,max), new Vector2(min,min));
+                                break;
+                            case 2:
+                                box.InitFuncElliptic(End, new Vector2(max,max), new Vector2(min,min));
+                                break;
+                            case 3:
+                                box.InitFuncHyperbolic(End, new Vector2(max,max), new Vector2(min,min));
+                                break;
+                            case 4:
+                                box.InitFuncPolynomial(End, new Vector2(max,max), new Vector2(min,min));
+                                break;
+                        }
                         break;
                 }
                 List<Vector2> points = box.Compute(pas);
