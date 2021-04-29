@@ -261,6 +261,92 @@ public class FuncBox : MonoScript
         underquad.GetComponent<MeshRenderer>().material = underMat;
         isInit = true;
     }
+    
+    public void InitFuncPolynomial(Vector2 Begin, Vector2 MaxSize, Vector2 MinSize)
+    {
+        if (MinSize.x < 0)
+            MinSize.x = -MinSize.x;
+        if (MinSize.y < 0)
+            MinSize.y = -MinSize.y;
+        if (MaxSize.x < 0)
+            MaxSize.x = -MaxSize.x;
+        if (MaxSize.y< 0)
+            MaxSize.y = -MaxSize.y;
+        float MIN = 0.5f;
+        if (MinSize.x < MIN)
+            MinSize.x = MIN;
+        if (MinSize.y < MIN)
+            MinSize.y = MIN;
+
+        
+        if (MaxSize.x < MinSize.x)
+            MaxSize.x = MinSize.x + 1.0f;
+        if (MaxSize.y < MinSize.y)
+            MaxSize.y = MinSize.y + 1.0f;
+        if (isInit)
+            return;
+        
+        
+        beginPoint = Begin;
+        int rand = Random.Range(1, 100);
+        //Debug.LogWarning($"Rand {rand}");
+        // begin point is endpoint of last box
+        float coef = 1.0f - Begin.y / 10.0f;
+        rand = (int)(rand * coef);
+        if (rand >= 20)
+        {
+            //ascendante
+            float x = Random.Range(MinSize.x,  MaxSize.x);
+            float y = Random.Range(MinSize.y,  MaxSize.y);
+          
+            //Debug.LogWarning($"OFFSET = {y/2.0f} , A = {y/2.0f}, OMEGA = {omega}, PHI = {-(Mathf.PI /2.0f)}");
+            
+            endPoint = beginPoint +new Vector2(x,y);
+            Vector2 beg = new Vector2(0, 0);
+            Vector2 end = new Vector2(x, y);
+            Matrix4x4 mat = new Matrix4x4(new Vector4(0,x*x*x, 0, 3*x*x), new Vector4(0,x*x,0,2*x),new Vector4(0,x,1,1),new Vector4(1,1,0,0));
+            Matrix4x4 inv = mat.inverse;
+            Vector4 v = new Vector4(0,y,0,0);
+            Vector4 abcd = inv * v;
+            func = new PolynomialFunc(FunctionsType.POLYNOMIAL, abcd.x,abcd.y,abcd.z,abcd.w);
+        }
+        else
+        {
+            //descendante
+            float x = Random.Range(+MinSize.x,   MaxSize.x);
+            float y = Random.Range(-MinSize.y, - MaxSize.y);
+            Vector2 beg = new Vector2(0, 0);
+            Vector2 end = new Vector2(x, y);
+            Matrix4x4 mat = new Matrix4x4(new Vector4(0,x*x*x, 0, 3*x*x), new Vector4(0,x*x,0,2*x),new Vector4(0,x,1,1),new Vector4(1,1,0,0));
+            Matrix4x4 inv = mat.inverse;
+            Vector4 v = new Vector4(0,y,0,0);
+            Vector4 abcd = inv * v;
+            func = new PolynomialFunc(FunctionsType.POLYNOMIAL, abcd.x,abcd.y,abcd.z,abcd.w);
+
+            endPoint = BeginPoint +end;
+        }
+        
+        quad.transform.position = (beginPoint + endPoint) * 0.5f;
+        float r = Random.Range(0.0f, 1.0f);
+        float g = Random.Range(0.0f, 1.0f);
+        float b = Random.Range(0.0f, 1.0f);
+        quad.GetComponent<MeshRenderer>().material.color = new Color(r,g,b,1);
+        quad.GetComponent<DebugBox>().BeginPoint = beginPoint;
+        quad.GetComponent<DebugBox>().EndPoint = endPoint;
+        
+        quad.transform.localScale = new Vector3(endPoint.x-beginPoint.x,Mathf.Abs(endPoint.y-beginPoint.y),1);
+        overquad = GameObject.Instantiate(quad, quad.transform.position, Quaternion.identity);
+        overquad.transform.localScale = new Vector3(quad.transform.localScale.x, 20,1);
+        overquad.transform.position += new Vector3(0,quad.transform.localScale.y /2 + overquad.transform.localScale.y/2,0);
+        overquad.GetComponent<MeshRenderer>().material = overMat;
+        underquad = GameObject.Instantiate(quad, quad.transform.position, Quaternion.identity);
+        underquad.transform.localScale = new Vector3(quad.transform.localScale.x, 20,1);
+
+        underquad.transform.position -= new Vector3(0,quad.transform.localScale.y /2 + underquad.transform.localScale.y/2,0);
+
+        underquad.GetComponent<MeshRenderer>().material = underMat;
+        isInit = true;
+    }
     public List<Vector2> Compute(float pas)
     {
         if (!isInit)

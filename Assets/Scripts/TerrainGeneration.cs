@@ -48,6 +48,9 @@ public class TerrainGeneration : MonoBehaviour
                 case FunctionsType.HYPERBOLIC:
                     box.InitFuncHyperbolic(oldPos, new Vector2(max,max), new Vector2(min,min));
                     break;
+                case FunctionsType.POLYNOMIAL:
+                    box.InitFuncPolynomial(oldPos, new Vector2(max,max), new Vector2(min,min));
+                    break;
             }
             List<Vector2> points = box.Compute(pas);
            // foreach (var vec in points)
@@ -86,6 +89,9 @@ public class TerrainGeneration : MonoBehaviour
                         break;
                     case FunctionsType.HYPERBOLIC:
                         box.InitFuncHyperbolic(End, new Vector2(max,max), new Vector2(min,min));
+                        break;
+                    case FunctionsType.POLYNOMIAL:
+                        box.InitFuncPolynomial(End, new Vector2(max,max), new Vector2(min,min));
                         break;
                 }
                 List<Vector2> points = box.Compute(pas);
