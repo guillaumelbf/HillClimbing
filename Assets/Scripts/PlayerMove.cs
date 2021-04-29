@@ -52,9 +52,9 @@ public class PlayerMove : MonoBehaviour
             Fro = TanVec * Mathf.Clamp(d, -t, t);
             Force +=  Fro;
 
-            if (!isInFloor)
+            
             {
-                if(Vector2.Dot(Velocity.normalized, TanVec) >= 0.6f)
+                if(Vector2.Dot(Velocity.normalized, TanVec) >= 0.8f)
                     Velocity = TanVec * Velocity.magnitude;
                 else
                 {
@@ -68,10 +68,14 @@ public class PlayerMove : MonoBehaviour
 
 
         }
-        else
+
         {
-            isInFloor = false;
+            float Dist = transform.position.y - floorPoint.y;
+            if (Dist <= 0.0f)
+                Dist = 0.0001f;
+            GetComponentInChildren<Camera>().orthographicSize = 10.0f + Mathf.Sqrt(Dist);
         }
+        
         Vector2 accel = Force / Mass;
         Velocity += accel * Time.deltaTime;
         nPos += Velocity* Time.deltaTime;
