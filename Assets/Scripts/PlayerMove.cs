@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float Frottement;
     [SerializeField] private float Mass = 1.0f;
 
+    [SerializeField] private GameObject PlayerSprite = null;
+
     private Vector2 Force;
     private bool isInFloor = false;
     private Vector2 Velocity;
@@ -22,7 +24,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        PlayerSprite.transform.Rotate(new Vector3(0,0,-Velocity.magnitude*Time.deltaTime*50));
     }
 
     public void Compute(Vector2 floorPoint, Vector2 floorPrime)

@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TerrainGeneration : MonoBehaviour
 {
-    
-    [SerializeField] private GameObject point;
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject quad ;
     [SerializeField] private int NumOfChuncks ;
@@ -22,12 +18,10 @@ public class TerrainGeneration : MonoBehaviour
     private PlayerMove pMove;
     
     private List<FuncBox> Boxes;
-    private List<GameObject> Spheres;
     // Start is called before the first frame update
     void Start()
     {
         Boxes = new List<FuncBox>();
-        Spheres = new List<GameObject>();
         for (int i = 0; i < NumOfChuncks; i++)
         {
             Vector2 oldPos = BeginGen;
@@ -72,11 +66,6 @@ public class TerrainGeneration : MonoBehaviour
                 
             }
             List<Vector2> points = box.Compute(pas);
-           // foreach (var vec in points)
-            {
-               // GameObject g= GameObject.Instantiate(point, new Vector3(vec.x,vec.y ,0), Quaternion.identity);
-              //  Spheres.Add(g);
-            }
             Boxes.Add(box);
         }
 
@@ -138,16 +127,6 @@ public class TerrainGeneration : MonoBehaviour
                    // Spheres.Add(g);
                 }
                 Boxes.Add(box);
-            }
-        }
-        if (Spheres.Count != 0)
-        {
-            float Pos = Player.transform.position.x  -view;
-            float End = Spheres[0].transform.position.x;
-            if (End <= Pos)
-            {
-                Destroy(Spheres[0]);
-                Spheres.RemoveAt(0);
             }
         }
         if (Boxes.Count != 0)
