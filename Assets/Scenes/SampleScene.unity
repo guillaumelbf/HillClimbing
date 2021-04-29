@@ -164,7 +164,7 @@ MonoBehaviour:
   view: 30
   overMat: {fileID: 2100000, guid: 81186725d64fc0845ab6d97d8a1d089b, type: 2}
   underMat: {fileID: 2100000, guid: f5941c1fa95962848912d723288d1942, type: 2}
-  funcType: 2
+  funcType: 4
 --- !u!4 &376819919
 Transform:
   m_ObjectHideFlags: 0
@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.97, y: -4.66, z: -10}
+  m_LocalPosition: {x: 13.14, y: -4.66, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 571227526}
