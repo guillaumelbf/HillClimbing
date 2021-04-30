@@ -54,16 +54,18 @@ public class PlayerMove : MonoBehaviour
             Fro = TanVec * Mathf.Clamp(d, -t, t);
             Force +=  Fro;
 
-            
+            if(Velocity.y <= 0.0f)
             {
                 if(Vector2.Dot(Velocity.normalized, TanVec) >= 0.8f)
-                    Velocity = TanVec * Velocity.magnitude;
-                else
+                    Velocity = TanVec * Velocity.magnitude * 0.995f;
+                //else
                 {
-                    Velocity = TanVec * Time.deltaTime;
+                    //Velocity = TanVec * Time.deltaTime;
                 }
-                isInFloor = true;
+                
             }
+            if(Vector2.Dot(Velocity.normalized, TanVec) <= 0.8f)
+                Velocity = TanVec * Velocity.magnitude * (1.0f-Frottement);
             
 
 
