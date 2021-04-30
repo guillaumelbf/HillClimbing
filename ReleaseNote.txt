@@ -1,0 +1,42 @@
+======== TP - Génération procédurale d'un profil de terrain mathématique en 2D ========
+---------------------------------------------------------------------------------------
+
+Le projet à été développé sur la version Unity 2020.1.17f1. Mais il devrait fonctionner sur n'importe quelle version antérieure ou ultérieur.
+
+Gameplay :
+----------
+Le joueur est représenté par un rocher qui parcourt un terrain généré procéduralement grâce à différentes fonctions mathématiques.
+Il est possible d'accélérer afin de gagner de la vitesse.
+
+Contrôle :
+----------
+Espace : Accélérer
+Par défaut, le terrain utilise toutes les fonctions mathématiques implémenté aléatoirement.
+Cependant, il est possible de fixer une fonction particulière en tweakant dans l'inspecteur du script "TerrainGeneration"
+se trouvant sur le gameobject "TerrainGenerator".(Fonctionne au runtime)
+
+Particularité technique :
+-------------------------
+Le player est soumis à une force de gravité constante.
+Le player possède également une vélocité qui lui permet lors d'un pic du terrain de se projeter en l'air.
+La force de gravité ramènera le player progressivement vers le bas.
+
+Classes principales :
+---------------------
+Comme classes principales nous avons la classe "Functions" qui est une classe interface pour créer n'importe quelle
+fonctions mathématiques facilement.
+Nous avons la classe "TerrainGeneration" qui gère la génération du terrain autour du Player.
+Et enfin nous avons la classe "PlayerMove" qui permet de faire déplacer le joueur avec une physique 2D.
+Les autres classes sont les différentes implémentations des fonctions mathématiques pour la génération de terrain.
+
+Bug connu :
+-----------
+Pas de bug connu.
+
+Amélioration :
+--------------
+Le gameplay du jeu ne propose pas de but précis, c'est pourquoi son amélioration pourrait définir un but
+comme aller le plus haut possible ou encore le plus loin.
+Ici, nous avons plus une simulation de génération de terrain 2D en temps réel que nous pouvons parcourir.
+
+Ryan Sandrin & Guillaume Lefebvre
